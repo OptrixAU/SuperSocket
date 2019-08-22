@@ -165,7 +165,7 @@ namespace SuperSocket.SocketEngine
         /// </summary>
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <returns></returns>
-        public bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver)
+        public bool Initialize(AppServer.ConfigCallback serverConfigResolver)
         {
             return m_InnerBootstrap.Initialize(serverConfigResolver);
         }
@@ -196,7 +196,7 @@ namespace SuperSocket.SocketEngine
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <param name="logFactory">The log factory.</param>
         /// <returns></returns>
-        public bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver, ILogFactory logFactory)
+        public bool Initialize(AppServer.ConfigCallback serverConfigResolver, ILogFactory logFactory)
         {
             if (logFactory != null)
                 throw new Exception("You cannot pass in logFactory, if your isolation level is AppDomain!");

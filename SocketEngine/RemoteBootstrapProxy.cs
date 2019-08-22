@@ -102,7 +102,7 @@ namespace SuperSocket.SocketEngine
             throw new NotSupportedException();
         }
 
-        public bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver)
+        public bool Initialize(AppServer.ConfigCallback serverConfigResolver)
         {
             throw new NotSupportedException();
         }
@@ -112,7 +112,7 @@ namespace SuperSocket.SocketEngine
             throw new NotSupportedException();
         }
 
-        public bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver, ILogFactory logFactory)
+        public bool Initialize(AppServer.ConfigCallback serverConfigResolver, ILogFactory logFactory)
         {
             throw new NotSupportedException();
         }

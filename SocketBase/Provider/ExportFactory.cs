@@ -91,7 +91,7 @@ namespace SuperSocket.SocketBase.Provider
         /// <typeparam name="T"></typeparam>
         /// <param name="creator">The creator.</param>
         /// <returns></returns>
-        public T CreateExport<T>(Func<Type, object> creator)
+        public T CreateExport<T>(AppServer.TypeObjectCallback creator)
         {
             if (m_LoadedType == null)
             {

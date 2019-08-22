@@ -363,7 +363,7 @@ namespace SuperSocket.SocketEngine
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <param name="logFactory">The log factory.</param>
         /// <returns></returns>
-        public virtual bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver, ILogFactory logFactory)
+        public virtual bool Initialize(AppServer.ConfigCallback serverConfigResolver, ILogFactory logFactory)
         {
             if (m_Initialized)
                 throw new Exception("The server had been initialized already, you cannot initialize it again!");
@@ -469,7 +469,7 @@ namespace SuperSocket.SocketEngine
         /// </summary>
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <returns></returns>
-        public virtual bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver)
+        public virtual bool Initialize(AppServer.ConfigCallback serverConfigResolver)
         {
             return Initialize(serverConfigResolver, null);
         }

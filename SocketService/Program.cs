@@ -134,7 +134,7 @@ namespace SuperSocket.SocketService
 
         private static Dictionary<string, ControlCommand> m_CommandHandlers = new Dictionary<string, ControlCommand>(StringComparer.OrdinalIgnoreCase);
 
-        private static void AddCommand(string name, string description, Func<IBootstrap, string[], bool> handler)
+        private static void AddCommand(string name, string description, ControlCommand.Command handler)
         {
             var command = new ControlCommand
             {

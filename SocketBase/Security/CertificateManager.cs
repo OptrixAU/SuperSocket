@@ -12,7 +12,9 @@ namespace SuperSocket.SocketBase.Security
 {
     static class CertificateManager
     {
-        internal static X509Certificate Initialize(ICertificateConfig cerConfig, Func<string, string> relativePathHandler)
+        public delegate string PathCallback(string path);
+
+        internal static X509Certificate Initialize(ICertificateConfig cerConfig, PathCallback relativePathHandler)
         {
             if (!string.IsNullOrEmpty(cerConfig.FilePath))
             {

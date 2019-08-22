@@ -50,6 +50,25 @@ namespace SuperSocket.SocketBase
     public class AppServer<TAppSession> : AppServer<TAppSession, StringRequestInfo>
         where TAppSession : AppSession<TAppSession, StringRequestInfo>, IAppSession, new()
     {
+        
+
+        /// <summary>
+        /// GetSession Callback Function
+        /// </summary>
+        public delegate bool SessionCallback(IAppSession session);
+
+        /// <summary>
+        /// GetConfig Callback Function
+        /// </summary>
+        public delegate IServerConfig ConfigCallback(IServerConfig input);
+
+        /// <summary>
+        /// GetConfig Callback Function
+        /// </summary>
+        public delegate object TypeObjectCallback(Type T);
+
+        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="AppServer&lt;TAppSession&gt;"/> class.
         /// </summary>
@@ -292,20 +311,29 @@ namespace SuperSocket.SocketBase
 
         #region Search session utils
 
+        
+
         /// <summary>
         /// Gets the matched sessions from sessions snapshot.
         /// </summary>
         /// <param name="critera">The prediction critera.</param>
         /// <returns></returns>
-        public override IEnumerable<TAppSession> GetSessions(Func<TAppSession, bool> critera)
+        
+        public override IEnumerable<TAppSession> GetSessions(AppServer.SessionCallback critera)
         {
             var sessionSource = SessionSource;
 
             if (sessionSource == null)
                 return null;
 
-            return sessionSource.Select(p => p.Value).Where(critera);
-        }
+            List<TAppSession> Sessions = new List<TAppSession>();
+            foreach (KeyValuePair<string, TAppSession> Session in sessionSource)
+            {
+                if (critera(Session.Value)) Sessions.Add(Session.Value);
+            }
+            return Sessions.ToArray();
+            //return sessionSource.Select(p => p.Value).Where(critera);
+        }        
 
         /// <summary>
         /// Gets all sessions in sessions snapshot.

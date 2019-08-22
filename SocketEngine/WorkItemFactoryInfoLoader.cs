@@ -7,6 +7,7 @@ using SuperSocket.SocketBase.Logging;
 using SuperSocket.SocketBase.Provider;
 using SuperSocket.SocketEngine.Configuration;
 using SuperSocket.SocketBase.Metadata;
+using SuperSocket.SocketBase;
 
 namespace SuperSocket.SocketEngine
 {
@@ -60,7 +61,7 @@ namespace SuperSocket.SocketEngine
             return factory;
         }
 
-        public List<WorkItemFactoryInfo> LoadResult(Func<IServerConfig, IServerConfig> serverConfigResolver)
+        public List<WorkItemFactoryInfo> LoadResult(AppServer.ConfigCallback serverConfigResolver)
         {
             var workItemFactories = new List<WorkItemFactoryInfo>(m_Config.Servers.Count());
 

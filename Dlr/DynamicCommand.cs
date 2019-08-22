@@ -19,6 +19,11 @@ namespace SuperSocket.Dlr
 
         private IEnumerable<CommandFilterAttribute> m_Filters;
 
+        /// <summary>
+        /// GetConfig Callback Function
+        /// </summary>
+        public delegate IEnumerable<CommandFilterAttribute> FilterCallback();
+
         public DynamicCommand(ScriptRuntime scriptRuntime, IScriptSource source)
         {
             Source = source;
@@ -36,9 +41,9 @@ namespace SuperSocket.Dlr
             if (!scriptScope.TryGetVariable<Action<TAppSession, TRequestInfo>>("execute", out dynamicMethod))
                 throw new Exception("Failed to find a command execution method in source: " + source.Tag);
 
-            Func<IEnumerable<CommandFilterAttribute>> filtersAction;
+            FilterCallback filtersAction;
 
-            if (scriptScope.TryGetVariable<Func<IEnumerable<CommandFilterAttribute>>>("getFilters", out filtersAction))
+            if (scriptScope.TryGetVariable<FilterCallback>("getFilters", out filtersAction))
                 m_Filters = filtersAction();
 
             CompiledTime = DateTime.Now;

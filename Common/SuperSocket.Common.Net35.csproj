@@ -104,6 +104,7 @@
     <Compile Include="SocketEx.cs" />
     <Compile Include="StringExtension.cs" />
     <Compile Include="StringExtension.NET35.cs" />
+    <Compile Include="SuperSocketDelegates.cs" />
     <Compile Include="TheadPoolEx.cs" />
   </ItemGroup>
   <ItemGroup>

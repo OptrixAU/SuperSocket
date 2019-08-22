@@ -710,10 +710,13 @@ namespace SuperSocket.SocketBase
             return factory.ExportFactory.CreateExport<TProvider>();
         }
 
-        private bool TryGetProviderInstances<TProvider>(ProviderFactoryInfo[] factories, ProviderKey key, Func<Type, object> creator, Func<TProvider, ProviderFactoryInfo, bool> initializer, out IEnumerable<TProvider> providers)
+        private delegate bool ProviderFactoryCallback<TProvider>(TProvider provider, ProviderFactoryInfo info);
+
+        private bool TryGetProviderInstances<TProvider>(ProviderFactoryInfo[] factories, ProviderKey key, AppServer.TypeObjectCallback creator, ProviderFactoryCallback<TProvider> initializer, out IEnumerable<TProvider> providers)
             where TProvider : class
         {
             IEnumerable<ProviderFactoryInfo> selectedFactories = factories.Where(p => p.Key.Name == key.Name);
+            
 
             if (!selectedFactories.Any())
             {
@@ -744,7 +747,9 @@ namespace SuperSocket.SocketBase
             return GetProviderInstances<TProvider>(factories, key, null);
         }
 
-        private IEnumerable<TProvider> GetProviderInstances<TProvider>(ProviderFactoryInfo[] factories, ProviderKey key, Func<Type, object> creator)
+        //private delegate bool ProviderCallback<TProvider>(TProvider provider, ProviderFactoryInfo info);
+
+        private IEnumerable<TProvider> GetProviderInstances<TProvider>(ProviderFactoryInfo[] factories, ProviderKey key, AppServer.TypeObjectCallback creator)
             where TProvider : class
         {
             IEnumerable<TProvider> providers;
@@ -1156,8 +1161,22 @@ namespace SuperSocket.SocketBase
                 return null;
         }
 
+        /// <summary>
+        /// Gets or sets the raw binary data received event handler.
+        /// TAppSession: session
+        /// byte[]: receive buffer
+        /// int: receive buffer offset
+        /// int: receive lenght
+        /// bool: whether process the received data further
+        /// </summary>
+        
+        private AppServer.DataReceivedCallback m_RawDataReceivedHandler;
 
-        private Func<TAppSession, byte[], int, int, bool> m_RawDataReceivedHandler;
+        /// <summary>
+        /// Gets the matched sessions from sessions snapshot.
+        /// </summary>        
+        /// <returns></returns>
+        public delegate bool DataReceivedCallback(IAppSession session, byte[] data, int offset, int length);
 
         /// <summary>
         /// Gets or sets the raw binary data received event handler.
@@ -1167,7 +1186,7 @@ namespace SuperSocket.SocketBase
         /// int: receive lenght
         /// bool: whether process the received data further
         /// </summary>
-        event Func<TAppSession, byte[], int, int, bool> IRawDataProcessor<TAppSession>.RawDataReceived
+        event AppServer.DataReceivedCallback IRawDataProcessor<TAppSession>.RawDataReceived
         {
             add { m_RawDataReceivedHandler += value; }
             remove { m_RawDataReceivedHandler -= value; }
@@ -1186,7 +1205,7 @@ namespace SuperSocket.SocketBase
             if (handler == null)
                 return true;
 
-            return handler((TAppSession)session, buffer, offset, length);
+            return handler((IAppSession)session, buffer, offset, length);
         }
 
         private RequestHandler<TAppSession, TRequestInfo> m_RequestHandler;
@@ -1547,11 +1566,13 @@ namespace SuperSocket.SocketBase
             return this.GetSessionByID(sessionID);
         }
 
+        
+
         /// <summary>
         /// Gets the matched sessions from sessions snapshot.
         /// </summary>
         /// <param name="critera">The prediction critera.</param>
-        public virtual IEnumerable<TAppSession> GetSessions(Func<TAppSession, bool> critera)
+        public virtual IEnumerable<TAppSession> GetSessions(AppServer.SessionCallback critera)
         {
             throw new NotSupportedException();
         }

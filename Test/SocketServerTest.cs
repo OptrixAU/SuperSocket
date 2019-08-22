@@ -187,14 +187,19 @@ namespace SuperSocket.Test
             return task.Result;
         }
 
-        private bool TestMaxConnectionNumber(int maxConnectionNumber)
+        static int MaxConnections;
+        IServerConfig TestLimitedConnections(IServerConfig Cfg)
         {
-            var configSource = SetupBootstrap(DefaultServerConfig, new Func<IServerConfig, IServerConfig>(c =>
-                {
-                    var nc = new ServerConfig(c);
-                    nc.MaxConnectionNumber = maxConnectionNumber;
-                    return nc;
-                }));
+            var nc = new ServerConfig(Cfg);
+            nc.MaxConnectionNumber = MaxConnections;// maxConnectionNumber;
+            return nc;
+        }
+
+    private bool TestMaxConnectionNumber(int maxConnectionNumber)
+        {
+            //TODO: Fix the allocation of the maximum connection number here. 
+            MaxConnections = maxConnectionNumber;
+            var configSource = SetupBootstrap(DefaultServerConfig, TestLimitedConnections);
 
             BootStrap.Start();
 

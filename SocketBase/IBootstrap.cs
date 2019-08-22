@@ -67,7 +67,7 @@ namespace SuperSocket.SocketBase
         /// </summary>
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <returns></returns>
-        bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver);
+        bool Initialize(AppServer.ConfigCallback serverConfigResolver);
 
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace SuperSocket.SocketBase
         /// <param name="serverConfigResolver">The server config resolver.</param>
         /// <param name="logFactory">The log factory.</param>
         /// <returns></returns>
-        bool Initialize(Func<IServerConfig, IServerConfig> serverConfigResolver, ILogFactory logFactory);
+        bool Initialize(AppServer.ConfigCallback serverConfigResolver, ILogFactory logFactory);
 
         /// <summary>
         /// Starts this bootstrap.

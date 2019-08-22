@@ -3,3 +3,5 @@ obj
 _ReSharper.*
 *.suo
 *.user
+/.vs/SuperSocket/v15/Server/sqlite3
+/.vs/SuperSocket.2010.NET35/v15/Server/sqlite3

@@ -99,7 +99,9 @@ namespace SuperSocket.SocketBase
     /// <typeparam name="TAppSession">The type of the app session.</typeparam>
     public interface IRawDataProcessor<TAppSession>
         where TAppSession : IAppSession
-    {
+
+    {        
+
         /// <summary>
         /// Gets or sets the raw binary data received event handler.
         /// TAppSession: session
@@ -108,7 +110,8 @@ namespace SuperSocket.SocketBase
         /// int: receive lenght
         /// bool: whether process the received data further
         /// </summary>
-        event Func<TAppSession, byte[], int, int, bool> RawDataReceived;
+
+        event AppServer.DataReceivedCallback RawDataReceived;
     }
 
     /// <summary>
@@ -123,7 +126,7 @@ namespace SuperSocket.SocketBase
         /// </summary>
         /// <param name="critera">The prediction critera.</param>
         /// <returns></returns>
-        IEnumerable<TAppSession> GetSessions(Func<TAppSession, bool> critera);
+        IEnumerable<TAppSession> GetSessions(AppServer.SessionCallback critera);
 
         /// <summary>
         /// Gets all sessions in sessions snapshot.

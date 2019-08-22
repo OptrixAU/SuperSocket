@@ -12,6 +12,8 @@ namespace SuperSocket.SocketService
 
         public string Description { get; set; }
 
-        public Func<IBootstrap, string[], bool> Handler { get; set; }
+        public delegate bool Command(IBootstrap bootstrap, string[] text);
+        public Command Handler { get; set; }
+        //public Func<IBootstrap, string[], bool> Handler { get; set; }
     }
 }

@@ -61,7 +61,7 @@ namespace SuperSocket.Test
             return configSource;
         }
 
-        protected IConfigurationSource SetupBootstrap(string configFile, Func<IServerConfig, IServerConfig> configResolver)
+        protected IConfigurationSource SetupBootstrap(string configFile, AppServer.ConfigCallback configResolver)
         {
             var configSource = CreateBootstrap(configFile);
 
@@ -78,7 +78,7 @@ namespace SuperSocket.Test
             return SetupBootstrap(configFile, null);
         }
 
-        protected IConfigurationSource StartBootstrap(string configFile, Func<IServerConfig, IServerConfig> configResolver)
+        protected IConfigurationSource StartBootstrap(string configFile, AppServer.ConfigCallback configResolver)
         {
             var configSource = SetupBootstrap(configFile, configResolver);
             var result = m_BootStrap.Start();
